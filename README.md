@@ -6,7 +6,9 @@ A grpc sample code for learning.
 ## Initialization
 We have a few package dependencies to install before all:
 ```console
-$ pip install -r requirements.txt
+$ virtualenv env
+$ source env/bin/activate
+(env) $ pip install -r requirements.txt
 ```
 
 ## Initialize ProtocolBuffer Setting
@@ -88,4 +90,52 @@ Server on: threads 2 (2020-07-24 04:03:12.201500)
 Server on: threads 2 (2020-07-24 04:03:22.202388)
 ```
 ## Build client.py
-We build a client to test the server:
+We build a client [client.py](client.py) to test the server:
+```python
+"""The Python implememntation of seans grpc client"""
+import os
+import time
+import grpc
+import pingpong_pb2
+import pingpong_pb2_grpc
+
+def run(port=9999):
+    "The run method, that sends gRPC conformant messsages to the server"
+    counter = 0
+    pid = os.getpid()
+    with grpc.insecure_channel("localhost:{}".format(port)) as channel:
+        stub = pingpong_pb2_grpc.PingPongServiceStub(channel)
+        while True:
+            try:
+                start = time.time()
+                response = stub.ping(pingpong_pb2.Ping(count=counter))
+                counter = response.count
+                if counter % 1000 == 0:
+                    print(
+                        "%.4f : resp=%s : procid=%i"
+                        % (time.time() - start, response.count, pid)
+                    )
+                    # counter = 0
+                time.sleep(0.001)
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt")
+                channel.unsubscribe(close)
+                exit()
+
+
+
+def close(channel):
+    "Close the channel"
+    channel.close()
+
+
+if __name__ == "__main__":
+    run()
+```
+Then we can execute it as below:
+```console
+$ python client.py
+0.0000 : resp=1000 : procid=15444
+0.0008 : resp=2000 : procid=15444
+0.0000 : resp=3000 : procid=15444
+```

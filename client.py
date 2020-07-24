@@ -25,9 +25,9 @@ def run(port=9999):
                 time.sleep(0.001)
             except KeyboardInterrupt:
                 print("KeyboardInterrupt")
-            finally:
                 channel.unsubscribe(close)
                 exit()
+
 
 
 def close(channel):
