@@ -1,8 +1,10 @@
 ## Introduction
 A grpc sample code for learning.
-* [10000 Messages in 2.18 seconds with Python and gRPC](https://www.youtube.com/watch?v=dQK0VLahrDk&list=PLyQnbMWK6HUXFM4csj3VPSdgRadRmyzNv&index=7&t=139s)
+* [Youtube - gRPC Introduction](https://www.youtube.com/watch?v=XRXTsQwyZSU)
+* [Youtube - Protocol Buffers in gRPC](https://www.youtube.com/watch?v=yfZB2_rT_Pc&list=RDCMUCGWZY-0pONnKmF98dhZy9CQ&index=12)
+* [Youtube - 10000 Messages in 2.18 seconds with Python and gRPC](https://www.youtube.com/watch?v=dQK0VLahrDk&list=PLyQnbMWK6HUXFM4csj3VPSdgRadRmyzNv&index=7&t=139s)
 * [Gitrepo - Seans-gRPC](https://github.com/Sean-Bradley/Seans-gRPC)
-* [Protocol Buffer Basics: Python](https://developers.google.com/protocol-buffers/docs/pythontutorial)
+* [Doc - Protocol Buffer Basics: Python](https://developers.google.com/protocol-buffers/docs/pythontutorial)
 
 ## Initialization
 We have a few package dependencies to install before all:
