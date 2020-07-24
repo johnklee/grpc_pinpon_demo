@@ -27,12 +27,35 @@ class Listener(pingpong_pb2_grpc.PingPongServiceServicer):
         return pingpong_pb2.Pong(count=request.count + 1)
 
 
+class MathListener(pingpong_pb2_grpc.MathServiceServicer):
+    """The listener function implemests the rpc call as described in the .proto file"""
+
+    def __init__(self):
+        self.counter = 0
+        self.reset_number = 10000
+        self.last_print_time = time.time()
+
+    def __str__(self):
+        return self.__class__.__name__
+
+    def sum(self, request, context):
+        self.counter += 1
+        if self.counter > self.reset_number:
+            print("{:,d} calls in {:.02f} seconds".format(self.reset_number, time.time() - self.last_print_time))
+            self.last_print_time = time.time()
+            self.counter = 0
+
+        sum_result = request.num1+request.num2
+        return pingpong_pb2.SumResult(result=sum_result)
+
+
 def serve(port=9999, sleep_time_in_second=10):
     """The main serve function of the server.
     This opens the socket, and listens for incoming grpc conformant packets"""
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
     pingpong_pb2_grpc.add_PingPongServiceServicer_to_server(Listener(), server)
+    pingpong_pb2_grpc.add_MathServiceServicer_to_server(MathListener(), server)
     server.add_insecure_port("[::]:{}".format(port))
     server.start()
     try:

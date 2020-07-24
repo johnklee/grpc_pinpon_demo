@@ -8,6 +8,12 @@ service PingPongService {
     rpc ping (Ping) returns (Pong) {}
 }
 
+// New service created for practice
+service MathService {
+    // an new service to get the sum of two number
+    rpc sum(Numbers) returns (SumResult) {}
+}
+
 message Ping {
     //The Ping message
     int32 count = 1;
@@ -16,4 +22,15 @@ message Ping {
 message Pong {
     //The Pong message
     int32 count = 1;
+}
+
+message Numbers{
+    // The input message
+    int32 num1 = 1;
+    int32 num2 = 2;
+}
+
+message SumResult{
+    // The sum result
+    int32 result = 1;
 }

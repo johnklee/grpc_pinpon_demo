@@ -67,3 +67,67 @@ class PingPongService(object):
             pingpong__pb2.Pong.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class MathServiceStub(object):
+    """New service created for practice
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.sum = channel.unary_unary(
+                '/MathService/sum',
+                request_serializer=pingpong__pb2.Numbers.SerializeToString,
+                response_deserializer=pingpong__pb2.SumResult.FromString,
+                )
+
+
+class MathServiceServicer(object):
+    """New service created for practice
+    """
+
+    def sum(self, request, context):
+        """an new service to get the sum of two number
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_MathServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'sum': grpc.unary_unary_rpc_method_handler(
+                    servicer.sum,
+                    request_deserializer=pingpong__pb2.Numbers.FromString,
+                    response_serializer=pingpong__pb2.SumResult.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'MathService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class MathService(object):
+    """New service created for practice
+    """
+
+    @staticmethod
+    def sum(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/MathService/sum',
+            pingpong__pb2.Numbers.SerializeToString,
+            pingpong__pb2.SumResult.FromString,
+            options, channel_credentials,
+            call_credentials, compression, wait_for_ready, timeout, metadata)
