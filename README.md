@@ -38,7 +38,7 @@ message Pong {
 $ python -m grpc_tools.protoc -I./proto --python_out=. --grpc_python_out=. ./proto/pingpong.proto
 ```
 After execution, below two files will be generated automatically:
-* pingpong_pb2_grpc.py
+* pingpong_pb2.py
 * pingpong_pb2_grpc.py
 
 ## Build server.py
@@ -142,3 +142,5 @@ $ python client.py
 0.0008 : resp=2000 : procid=15444
 0.0000 : resp=3000 : procid=15444
 ```
+## Math gRPC client math_client.py
+If you are here, can you build a gRPC call to sum two integers as practice? You can refer to [proto\pingpong.proto](proto\pingpong.proto) for new service and messages added for this practice. I also updated [server.py](server.py) and create [math_client.py](math_client.py) to test this new gRPC service. Have fun!
