@@ -27,7 +27,7 @@ class Listener(pingpong_pb2_grpc.PingPongServiceServicer):
         return pingpong_pb2.Pong(count=request.count + 1)
 
 
-def serve(port=9999):
+def serve(port=9999, sleep_time_in_second=10):
     """The main serve function of the server.
     This opens the socket, and listens for incoming grpc conformant packets"""
 
@@ -37,8 +37,8 @@ def serve(port=9999):
     server.start()
     try:
         while True:
-            print("Server Running : threadcount %i".format(threading.active_count(), datetime.now()))
-            time.sleep(10)
+            print("{1}: Server Running: threadcount {0}".format(threading.active_count(), datetime.now()))
+            time.sleep(sleep_time_in_second)
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
     finally:
