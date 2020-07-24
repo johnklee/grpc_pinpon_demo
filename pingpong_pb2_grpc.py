@@ -6,7 +6,8 @@ import pingpong_pb2 as pingpong__pb2
 
 
 class PingPongServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """my service is called PingPongService
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -22,10 +23,12 @@ class PingPongServiceStub(object):
 
 
 class PingPongServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """my service is called PingPongService
+    """
 
     def ping(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """an example of getting a feature
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -46,7 +49,8 @@ def add_PingPongServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class PingPongService(object):
-    """Missing associated documentation comment in .proto file."""
+    """my service is called PingPongService
+    """
 
     @staticmethod
     def ping(request,
