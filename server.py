@@ -1,5 +1,6 @@
 """The Python implementation of the GRPC Seans-gRPC server."""
 from concurrent import futures
+from datetime import datetime
 import threading
 import time
 import grpc
@@ -19,26 +20,29 @@ class Listener(pingpong_pb2_grpc.PingPongServiceServicer):
     def ping(self, request, context):
         self.counter += 1
         if self.counter > 10000:
-            print("10000 calls in %3f seconds" % (time.time() - self.last_print_time))
+            print("10000 calls in {:.02f} seconds".format(time.time() - self.last_print_time))
             self.last_print_time = time.time()
             self.counter = 0
+
         return pingpong_pb2.Pong(count=request.count + 1)
 
 
-def serve():
+def serve(port=9999):
     """The main serve function of the server.
     This opens the socket, and listens for incoming grpc conformant packets"""
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
     pingpong_pb2_grpc.add_PingPongServiceServicer_to_server(Listener(), server)
-    server.add_insecure_port("[::]:9999")
+    server.add_insecure_port("[::]:{}".format(port))
     server.start()
     try:
         while True:
-            print("Server Running : threadcount %i" % (threading.active_count()))
+            print("Server Running : threadcount %i".format(threading.active_count(), datetime.now()))
             time.sleep(10)
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
+    finally:
+        print("Bye")
         server.stop(0)
 
 

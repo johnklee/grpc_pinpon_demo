@@ -5,11 +5,11 @@ import grpc
 import pingpong_pb2
 import pingpong_pb2_grpc
 
-def run():
+def run(port=9999):
     "The run method, that sends gRPC conformant messsages to the server"
     counter = 0
     pid = os.getpid()
-    with grpc.insecure_channel("localhost:9999") as channel:
+    with grpc.insecure_channel("localhost:{}".format(port)) as channel:
         stub = pingpong_pb2_grpc.PingPongServiceStub(channel)
         while True:
             try:
@@ -25,6 +25,7 @@ def run():
                 time.sleep(0.001)
             except KeyboardInterrupt:
                 print("KeyboardInterrupt")
+            finally:
                 channel.unsubscribe(close)
                 exit()
 
